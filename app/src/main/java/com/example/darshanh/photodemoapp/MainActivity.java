@@ -54,7 +54,13 @@ public class MainActivity extends AppCompatActivity implements OnItemClickListen
         mLayoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
       //  imageList=new ArrayList<>();
-        compressedImagesPath=getFromSdcard();
+        if(getIntent().getStringArrayListExtra("rearranged images")!=null){
+            compressedImagesPath=getIntent().getStringArrayListExtra("rearranged images");
+        }
+        else{
+            compressedImagesPath=getFromSdcard();
+        }
+
 
         imageInstance=SingletonImageUri.getUniqueInstance();
         imageList=new ArrayList<ImageUri>();
@@ -74,6 +80,17 @@ public class MainActivity extends AppCompatActivity implements OnItemClickListen
                 Intent i = new Intent(getApplicationContext(),CustomImageSelector.class);
                 startActivityForResult(i,1);
 
+
+            }
+        });
+
+        Button rearrange=(Button)findViewById(R.id.rearrangeBtn);
+        rearrange.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(getApplicationContext(),RearrangeActivity.class);
+                i.putStringArrayListExtra("images",compressedImagesPath);
+                startActivityForResult(i,2);
             }
         });
     }
@@ -121,14 +138,10 @@ public class MainActivity extends AppCompatActivity implements OnItemClickListen
                 selectedImage=Uri.parse(imagePaths.get(i));
                 compressImage();
             }
-           // Toast.makeText(getApplicationContext(),"Selected Image Count: "+imagePaths.size(),Toast.LENGTH_SHORT).show();
-          //  compressImage();
-           /* Cursor returnCursor = getContentResolver().query(selectedImage, null, null, null, null);
-            int sizeIndex = returnCursor.getColumnIndex(OpenableColumns.SIZE);
-            returnCursor.moveToFirst();*/
-
         }
-        else{
+        else if(requestCode == 2 && resultCode == RESULT_OK){
+            compressedImagesPath=getIntent().getStringArrayListExtra("rearranged images");
+            mAdapter.notifyDataSetChanged();
             Toast.makeText(getApplicationContext(),"You've not selected any file!!",Toast.LENGTH_LONG).show();
         }
     }

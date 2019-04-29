@@ -11,8 +11,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="17dp"
+        android:layout_alignStart="@+id/imageView"
+        android:layout_marginBottom="14dp"
         android:text="Add Image" />
 
     <ImageView
@@ -31,5 +31,13 @@
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="77dp" />
+
+    <Button
+        android:id="@+id/rearrangeBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@+id/imageView"
+        android:layout_alignTop="@+id/galleryButton"
+        android:text="rearrange" />
 
 </RelativeLayout>
